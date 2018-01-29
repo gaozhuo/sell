@@ -9,11 +9,13 @@ import com.example.sell.utils.ResultVOUtils;
 import com.example.sell.vo.ProductInfoVO;
 import com.example.sell.vo.ProductVO;
 import com.example.sell.vo.ResultVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +37,7 @@ public class BuyerProductController {
     @Autowired
     private CategoryService categoryService;
 
+    @ApiOperation(value = "获取在线商品列表", notes = "获取在线商品列表")
     @GetMapping("/list")
     public ResultVO list() {
 
@@ -54,7 +57,7 @@ public class BuyerProductController {
 
             List<ProductInfoVO> productInfoVOList = new ArrayList<>();
             for (ProductInfo productInfo : productInfoList) {
-                if(productInfo.getCategoryType().equals(productCategory.getCategoryType())){
+                if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
 
                     ProductInfoVO productInfoVO = new ProductInfoVO();
                     BeanUtils.copyProperties(productInfo, productInfoVO);
@@ -68,6 +71,19 @@ public class BuyerProductController {
 
         }
 
-        return ResultVOUtils.success(productVOList);
+           return ResultVOUtils.success(productVOList);
+    }
+
+    /**
+     *
+     * @param name 姓名
+     * @param price 价格
+     * @param type 类型
+     * @return
+     */
+    @ApiOperation(value = "添加商品", notes = "添加一个商品")
+    @PostMapping("/add")
+    public ResultVO add(@RequestParam(required = true) String name, double price, Integer type) {
+        return ResultVOUtils.success();
     }
 }
