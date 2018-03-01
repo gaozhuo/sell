@@ -16,7 +16,13 @@ public enum ResultEnum {
 
     ORDER_NOT_EXIT(12, "订单不存在"),
 
-    ORDER_DETAIL_NOT_EXIT(13, "订单详情不存在");
+    ORDER_DETAIL_NOT_EXIT(13, "订单详情不存在"),
+
+    ORDER_STATUS_NOT_ERROR(14, "订单状态错误"),
+
+    ORDER_DETAIL_EMPTY(15, "订单详情为空"),
+
+    ORDER_UPDATE_FAIL(16, "更新订单失败");
 
     private Integer code;
 

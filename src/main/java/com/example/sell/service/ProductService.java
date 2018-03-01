@@ -17,4 +17,6 @@ public interface ProductService {
     ProductInfo save(ProductInfo productInfo);
 
     void decreaseStock(List<CartDTO> cartDTOList);
+
+    void increaseStock(List<CartDTO> cartDTOList);
 }
