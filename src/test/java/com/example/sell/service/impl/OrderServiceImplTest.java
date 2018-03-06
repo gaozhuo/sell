@@ -3,6 +3,7 @@ package com.example.sell.service.impl;
 import com.example.sell.dataobject.OrderDetail;
 import com.example.sell.dto.OrderDTO;
 import com.example.sell.enums.OrderStatusEnum;
+import com.example.sell.enums.PayStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -85,9 +86,17 @@ public class OrderServiceImplTest {
 
     @Test
     public void finish() {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.finish(orderDTO);
+
+        assertEquals(OrderStatusEnum.FINISHED.getCode(), result.getOrderStatus());
     }
 
     @Test
     public void paid() {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.paid(orderDTO);
+
+        assertEquals(PayStatusEnum.SUCCESS.getCode(), result.getPayStatus());
     }
 }
