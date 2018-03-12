@@ -1,12 +1,10 @@
 package com.example.sell.dto;
 
 import com.example.sell.dataobject.OrderDetail;
-import com.example.sell.enums.OrderStatusEnum;
-import com.example.sell.enums.PayStatusEnum;
+import com.example.sell.utils.serializer.Date2LongSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +16,7 @@ import java.util.List;
  * @date 2018/2/19
  */
 @Data
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
     private String orderId;
 
@@ -35,8 +34,10 @@ public class OrderDTO {
 
     private Integer payStatus;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     private List<OrderDetail> orderDetailList;

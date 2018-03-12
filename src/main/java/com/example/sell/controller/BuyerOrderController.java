@@ -32,8 +32,15 @@ public class BuyerOrderController {
     @Autowired
     private OrderService orderService;
 
+    /**
+     * 创建订单
+     *
+     * @param orderForm
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/create")
-    ResultVO<Map<String, String>> create(@Valid OrderForm orderForm, BindingResult bindingResult) {
+    public ResultVO<Map<String, String>> create(@Valid OrderForm orderForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("【创建订单】参数错误, orderForm={}", orderForm);
             throw new SellException(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
@@ -50,10 +57,18 @@ public class BuyerOrderController {
         return ResultVOUtils.success(map);
     }
 
+    /**
+     * 订单列表
+     *
+     * @param openid openid
+     * @param page   起始页
+     * @param size   每页大小
+     * @return
+     */
     @GetMapping("/list")
-    ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
-                                  @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                  @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
+                                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                         @RequestParam(value = "size", defaultValue = "10") Integer size) {
         if (StringUtils.isEmpty(openid)) {
             log.error("【创建订单】 openid为空");
             throw new SellException(ResultEnum.PARAM_ERROR);
@@ -62,5 +77,34 @@ public class BuyerOrderController {
         Pageable pageable = new PageRequest(page, size);
         Page<OrderDTO> orderDTOPage = orderService.findList(openid, pageable);
         return ResultVOUtils.success(orderDTOPage.getContent());
+    }
+
+    /**
+     * 订单详情
+     *
+     * @param openid  openid
+     * @param orderId 订单id
+     * @return
+     */
+    @GetMapping("/detail")
+    public ResultVO<OrderDTO> detail(@RequestParam String openid, @RequestParam String orderId) {
+        // TODO 不安全
+        OrderDTO orderDTO = orderService.findOne(orderId);
+        return ResultVOUtils.success(orderDTO);
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param openid  openid
+     * @param orderId 订单id
+     * @return
+     */
+    @PostMapping("/cancel")
+    public ResultVO cancel(@RequestParam String openid, @RequestParam String orderId) {
+        // TODO 不安全
+        OrderDTO orderDTO = orderService.findOne(orderId);
+        orderService.cancel(orderDTO);
+        return ResultVOUtils.success();
     }
 }
