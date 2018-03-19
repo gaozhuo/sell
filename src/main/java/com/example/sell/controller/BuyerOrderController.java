@@ -5,6 +5,7 @@ import com.example.sell.dto.OrderDTO;
 import com.example.sell.enums.ResultEnum;
 import com.example.sell.exception.SellException;
 import com.example.sell.form.OrderForm;
+import com.example.sell.service.BuyerService;
 import com.example.sell.service.OrderService;
 import com.example.sell.utils.ResultVOUtils;
 import com.example.sell.vo.ResultVO;
@@ -19,8 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,9 @@ import java.util.Map;
 public class BuyerOrderController {
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     /**
      * 创建订单
@@ -88,8 +90,7 @@ public class BuyerOrderController {
      */
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam String openid, @RequestParam String orderId) {
-        // TODO 不安全
-        OrderDTO orderDTO = orderService.findOne(orderId);
+        OrderDTO orderDTO = buyerService.findOrderOne(openid, orderId);
         return ResultVOUtils.success(orderDTO);
     }
 
@@ -102,9 +103,7 @@ public class BuyerOrderController {
      */
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam String openid, @RequestParam String orderId) {
-        // TODO 不安全
-        OrderDTO orderDTO = orderService.findOne(orderId);
-        orderService.cancel(orderDTO);
+        buyerService.cancelOrder(openid, orderId);
         return ResultVOUtils.success();
     }
 }
