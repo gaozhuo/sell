@@ -30,7 +30,9 @@ public enum ResultEnum {
 
     CART_EMPTY(18, "购物车为空"),
 
-    ORDER_OWNER_ERROR(19, "不是该用户的订单");
+    ORDER_OWNER_ERROR(19, "不是该用户的订单"),
+
+    WX_MP_ERROR(20, "微信授权错误");
 
     private Integer code;
 
