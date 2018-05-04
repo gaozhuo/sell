@@ -24,6 +24,7 @@ public class WechatController {
 
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
+        log.debug("returnUrl={}", returnUrl);
         String url = "http://forward.nat300.top/sell/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         return "redirect:" + redirectUrl;

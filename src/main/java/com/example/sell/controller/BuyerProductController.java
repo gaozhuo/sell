@@ -4,21 +4,17 @@ import com.example.sell.dataobject.ProductCategory;
 import com.example.sell.dataobject.ProductInfo;
 import com.example.sell.service.CategoryService;
 import com.example.sell.service.ProductService;
-import com.example.sell.service.impl.ProductServiceImpl;
 import com.example.sell.utils.ResultVOUtils;
 import com.example.sell.vo.ProductInfoVO;
 import com.example.sell.vo.ProductVO;
 import com.example.sell.vo.ResultVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +26,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/buyer/product")
+@Slf4j
 public class BuyerProductController {
     @Autowired
     private ProductService productService;
@@ -40,6 +37,8 @@ public class BuyerProductController {
     @ApiOperation(value = "获取在线商品列表", notes = "获取在线商品列表")
     @GetMapping("/list")
     public ResultVO list() {
+
+        log.debug("product list");
 
         List<ProductInfo> productInfoList = productService.findUpAll();
 
